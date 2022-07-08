@@ -1,23 +1,25 @@
 import Foundation
 import Cocoa
 
+// TODO: from https://ethanschoonover.com/solarized/#the-values
+
 struct Solarized {
-    static let base03    = NSColor(calibratedHue: 193/255.0, saturation: 100/255.0, brightness:  21/255.0, alpha: 1)
-    static let base02    = NSColor(calibratedHue: 192/255.0, saturation:  90/255.0, brightness:  26/255.0, alpha: 1)
-    static let base01    = NSColor(calibratedHue: 194/255.0, saturation:  25/255.0, brightness:  46/255.0, alpha: 1)
-    static let base00    = NSColor(calibratedHue: 195/255.0, saturation:  23/255.0, brightness:  51/255.0, alpha: 1)
-    static let base0     = NSColor(calibratedHue: 186/255.0, saturation:  13/255.0, brightness:  59/255.0, alpha: 1)
-    static let base1     = NSColor(calibratedHue: 180/255.0, saturation:   9/255.0, brightness:  63/255.0, alpha: 1)
-    static let base2     = NSColor(calibratedHue:  44/255.0, saturation:  11/255.0, brightness:  93/255.0, alpha: 1)
-    static let base3     = NSColor(calibratedHue:  44/255.0, saturation:  10/255.0, brightness:  99/255.0, alpha: 1)
-    static let yellow    = NSColor(calibratedHue:  45/255.0, saturation: 100/255.0, brightness:  71/255.0, alpha: 1)
-    static let orange    = NSColor(calibratedHue:  18/255.0, saturation:  89/255.0, brightness:  80/255.0, alpha: 1)
-    static let red       = NSColor(calibratedHue:   1/255.0, saturation:  79/255.0, brightness:  86/255.0, alpha: 1)
-    static let magenta   = NSColor(calibratedHue: 331/255.0, saturation:  74/255.0, brightness:  83/255.0, alpha: 1)
-    static let violet    = NSColor(calibratedHue: 237/255.0, saturation:  45/255.0, brightness:  77/255.0, alpha: 1)
-    static let blue      = NSColor(calibratedHue: 205/255.0, saturation:  82/255.0, brightness:  82/255.0, alpha: 1)
-    static let cyan      = NSColor(calibratedHue: 175/255.0, saturation:  74/255.0, brightness:  63/255.0, alpha: 1)
-    static let green     = NSColor(calibratedHue:  68/255.0, saturation: 100/255.0, brightness:  60/255.0, alpha: 1)
+    static let base03    = NSColor(calibratedHue: 193/255.0, saturation: 100/255.0, brightness:  21/100.0, alpha: 1)
+    static let base02    = NSColor(calibratedHue: 192/255.0, saturation:  90/255.0, brightness:  26/100.0, alpha: 1)
+    static let base01    = NSColor(calibratedHue: 194/255.0, saturation:  25/255.0, brightness:  46/100.0, alpha: 1)
+    static let base00    = NSColor(calibratedHue: 195/255.0, saturation:  23/255.0, brightness:  51/100.0, alpha: 1)
+    static let base0     = NSColor(calibratedHue: 186/255.0, saturation:  13/255.0, brightness:  59/100.0, alpha: 1)
+    static let base1     = NSColor(calibratedHue: 180/255.0, saturation:   9/255.0, brightness:  63/100.0, alpha: 1)
+    static let base2     = NSColor(calibratedHue:  44/255.0, saturation:  11/255.0, brightness:  93/100.0, alpha: 1)
+    static let base3     = NSColor(calibratedHue:  44/255.0, saturation:  10/255.0, brightness:  99/100.0, alpha: 1)
+    static let yellow    = NSColor(calibratedHue:  45/255.0, saturation: 100/255.0, brightness:  71/100.0, alpha: 1)
+    static let orange    = NSColor(calibratedHue:  18/255.0, saturation:  89/255.0, brightness:  80/100.0, alpha: 1)
+    static let red       = NSColor(calibratedHue:   1/255.0, saturation:  79/255.0, brightness:  86/100.0, alpha: 1)
+    static let magenta   = NSColor(calibratedHue: 331/255.0, saturation:  74/255.0, brightness:  83/100.0, alpha: 1)
+    static let violet    = NSColor(calibratedHue: 237/255.0, saturation:  45/255.0, brightness:  77/100.0, alpha: 1)
+    static let blue      = NSColor(calibratedHue: 205/255.0, saturation:  82/255.0, brightness:  82/100.0, alpha: 1)
+    static let cyan      = NSColor(calibratedHue: 175/255.0, saturation:  74/255.0, brightness:  63/100.0, alpha: 1)
+    static let green     = NSColor(calibratedHue:  68/255.0, saturation: 100/255.0, brightness:  60/100.0, alpha: 1)
 }
 
 public struct SolarizedLight: Stylesheet {

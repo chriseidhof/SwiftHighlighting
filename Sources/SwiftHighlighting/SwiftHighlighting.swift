@@ -11,43 +11,22 @@ import SwiftSyntaxParser
 import Foundation
 import AppKit
 
-// todo:
-
-let accentColors: [NSColor] = [
-    // From: https://ethanschoonover.com/solarized/#the-values
-    (181, 137,   0),
-    (203,  75,  22),
-    (220,  50,  47),
-    (211,  54, 130),
-    (108, 113, 196),
-    ( 38, 139, 210),
-    ( 42, 161, 152),
-    (133, 153,   0)
-].map { NSColor(calibratedRed: CGFloat($0.0) / 255, green: CGFloat($0.1) / 255, blue: CGFloat($0.2) / 255, alpha: 1)}
-
-extension Token.Kind {
-    var color: NSColor {
-        switch self {
-        case .comment: return accentColors[0]
-        case .keyword: return accentColors[4]
-        case .attribute: return accentColors[5]
-        case .number: return accentColors[3]
-        case .string: return accentColors[2]
-        }
-    }
-}
 
 extension NSAttributedString {
-    static public func highlightSwift(_ input: String, attributes: [NSAttributedString.Key: Any] = [:]) -> NSAttributedString {
-        let str = NSMutableAttributedString(string: input, attributes: attributes)
+    static public func highlightSwift(_ input: String, stylesheet: Stylesheet = SolarizedLight(), attributes: [NSAttributedString.Key: Any] = [:]) -> NSAttributedString {
+        var atts = attributes
+        if atts[.foregroundColor] == nil {
+            atts[.foregroundColor] = stylesheet.body
+        }
+        let str = NSMutableAttributedString(string: input, attributes: atts)
         let result = try! SwiftHighlighter.shared.highlight([input])[0] // todo
-        str.highlightCodeBlock(result: result, originalString: input)
+        str.highlightCodeBlock(result: result, stylesheet: stylesheet, originalString: input)
         return str
     }
 }
 
 extension NSMutableAttributedString {
-    func highlightCodeBlock(result: SwiftHighlighter.Result, originalString: String) {
+    func highlightCodeBlock(result: SwiftHighlighter.Result, stylesheet: Stylesheet, originalString: String) {
         let nsString = string as NSString
         let start = 0
         for el in result {
@@ -57,7 +36,7 @@ extension NSMutableAttributedString {
                 print("invalid range: \(theRange)")
                 continue
             }
-            addAttribute(.foregroundColor, value: el.kind.color, range: theRange)
+            addAttribute(.foregroundColor, value: stylesheet.color(for: el.kind), range: theRange)
         }
     }
 }
@@ -124,14 +103,16 @@ class SwiftHighlighter {
     }
 }
 
+public enum TokenKind {
+    case string
+    case number
+    case keyword
+    case comment
+    case attribute
+}
+
 struct Token {
-    enum Kind {
-        case string
-        case number
-        case keyword
-        case comment
-        case attribute
-    }
+    typealias Kind = TokenKind
     var kind: Kind
     var start: AbsolutePosition
     var end: AbsolutePosition
@@ -171,8 +152,7 @@ class SwiftHighlighterRewriter: SyntaxRewriter {
     override func visit(_ node: VariableDeclSyntax) -> DeclSyntax {
         if let a = node.attributes {
             for attribute in a {
-                if let x = attribute.as(CustomAttributeSyntax.self) {
-//                    let n = x.attributeName
+                if let _ = attribute.as(CustomAttributeSyntax.self) {
                     result.append(.init(kind: .attribute, start: attribute.positionAfterSkippingLeadingTrivia, end: attribute.endPosition))
                 }
             }

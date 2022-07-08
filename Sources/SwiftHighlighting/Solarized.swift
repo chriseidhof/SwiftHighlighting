@@ -43,7 +43,7 @@ public struct SolarizedLight: Stylesheet {
 }
 
 public struct SolarizedDark: Stylesheet {
-    public let body = Solarized.base00
+    public let body = Solarized.base0
     public let background = Solarized.base03
     
     public init() { }

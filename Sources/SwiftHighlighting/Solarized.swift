@@ -65,9 +65,9 @@ public struct SolarizedDark: Stylesheet {
 }
 
 extension Stylesheet where Self == SolarizedLight {
-    static var solarizedLight: SolarizedLight { .init() }
+    public static var solarizedLight: SolarizedLight { .init() }
 }
 
 extension Stylesheet where Self == SolarizedDark {
-    static var solarizedDark: SolarizedDark { .init() }
+    public static var solarizedDark: SolarizedDark { .init() }
 }

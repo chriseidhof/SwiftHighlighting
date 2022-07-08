@@ -13,7 +13,7 @@ import AppKit
 
 
 extension NSAttributedString {
-    static public func highlightSwift(_ input: String, stylesheet: Stylesheet = SolarizedLight(), attributes: [NSAttributedString.Key: Any] = [:]) -> NSAttributedString {
+    static public func highlightSwift(_ input: String, stylesheet: Stylesheet = .xcodeDefault, attributes: [NSAttributedString.Key: Any] = [:]) -> NSAttributedString {
         var atts = attributes
         if atts[.foregroundColor] == nil {
             atts[.foregroundColor] = stylesheet.body

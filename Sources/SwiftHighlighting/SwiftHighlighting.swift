@@ -8,7 +8,6 @@
 import AppKit
 import SwiftParser
 import SwiftSyntax
-import SwiftSyntaxParser
 
 extension NSAttributedString {
     static public func highlightSwift(_ input: String, stylesheet: Stylesheet = .xcodeDefault, attributes: [NSAttributedString.Key: Any] = [:]) -> NSAttributedString {

@@ -5,12 +5,9 @@
 //  Created by Chris Eidhof on 25.03.21.
 //
 
-import Foundation
-import SwiftSyntax
-import SwiftSyntaxParser
-import Foundation
 import AppKit
-
+import SwiftParser
+import SwiftSyntax
 
 extension NSAttributedString {
     static public func highlightSwift(_ input: String, stylesheet: Stylesheet = .xcodeDefault, attributes: [NSAttributedString.Key: Any] = [:]) -> NSAttributedString {
@@ -89,7 +86,7 @@ class SwiftHighlighter {
     }
     
     private func _highlight(_ code: String) throws -> Result {
-        let sourceFile = try SyntaxParser.parse(source: code)
+        let sourceFile = try Parser.parse(source: code)
         let highlighter = SwiftHighlighterRewriter()
         _ = highlighter.visit(sourceFile)
         

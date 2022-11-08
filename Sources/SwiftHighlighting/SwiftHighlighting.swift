@@ -156,7 +156,8 @@ class SwiftHighlighterRewriter: SyntaxRewriter {
         }
         return super.visit(node)
     }
-    override func visit(_ token: TokenSyntax) -> Syntax {
+
+    override func visit(_ token: TokenSyntax) -> TokenSyntax {
         let kind: Token.Kind?
         switch token.tokenKind {
         case .stringLiteral, .stringQuote, .stringSegment:
@@ -177,6 +178,6 @@ class SwiftHighlighterRewriter: SyntaxRewriter {
                 result.append(Token(kind: .comment, start: start, end: end))
             }
         }
-        return Syntax(token)
+        return token
     }
 }

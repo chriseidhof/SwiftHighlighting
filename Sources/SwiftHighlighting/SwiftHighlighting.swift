@@ -86,7 +86,7 @@ class SwiftHighlighter {
     }
     
     private func _highlight(_ code: String) throws -> Result {
-        let sourceFile = try Parser.parse(source: code)
+        let sourceFile = Parser.parse(source: code)
         let highlighter = SwiftHighlighterRewriter()
         _ = highlighter.visit(sourceFile)
         
@@ -149,8 +149,7 @@ class SwiftHighlighterRewriter: SyntaxRewriter {
     override func visit(_ node: VariableDeclSyntax) -> DeclSyntax {
         if let a = node.attributes {
             for attribute in a {
-
-                if case let .attribute(_) = attribute {
+                if case .attribute = attribute {
                     result.append(.init(kind: .attribute, start: attribute.positionAfterSkippingLeadingTrivia, end: attribute.endPosition))
                 }
             }

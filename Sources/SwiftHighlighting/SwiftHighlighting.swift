@@ -149,7 +149,8 @@ class SwiftHighlighterRewriter: SyntaxRewriter {
     override func visit(_ node: VariableDeclSyntax) -> DeclSyntax {
         if let a = node.attributes {
             for attribute in a {
-                if let _ = attribute.as(CustomAttributeSyntax.self) {
+
+                if case let .attribute(_) = attribute {
                     result.append(.init(kind: .attribute, start: attribute.positionAfterSkippingLeadingTrivia, end: attribute.endPosition))
                 }
             }
@@ -160,11 +161,11 @@ class SwiftHighlighterRewriter: SyntaxRewriter {
     override func visit(_ token: TokenSyntax) -> TokenSyntax {
         let kind: Token.Kind?
         switch token.tokenKind {
-        case .stringLiteral, .stringQuote, .stringSegment:
+        case .stringLiteralContents, .stringQuote, .stringSegment:
             kind = .string
         case .integerLiteral, .floatingLiteral:
             kind = .number
-        case _ where token.tokenKind.isKeyword:
+        case _ where token.tokenKind.isLexerClassifiedKeyword:
             kind = .keyword
         default:
             kind = nil

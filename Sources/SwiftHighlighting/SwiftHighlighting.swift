@@ -160,7 +160,7 @@ class SwiftHighlighterRewriter: SyntaxRewriter {
     override func visit(_ token: TokenSyntax) -> TokenSyntax {
         let kind: Token.Kind?
         switch token.tokenKind {
-        case .stringLiteralContents, .stringQuote, .stringSegment:
+        case .stringQuote, .stringSegment:
             kind = .string
         case .integerLiteral, .floatingLiteral:
             kind = .number

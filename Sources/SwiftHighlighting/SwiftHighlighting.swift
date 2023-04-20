@@ -34,6 +34,11 @@ extension NSMutableAttributedString {
                 continue
             }
             addAttribute(.foregroundColor, value: stylesheet.color(for: el.kind), range: theRange)
+            if let traits = stylesheet.trait(for: el.kind), let font = attribute(.font, at: theRange.location, effectiveRange: nil) as? NSFont {
+                let desc = font.fontDescriptor.withSymbolicTraits(traits)
+                let newFont = NSFont(descriptor: desc, size: font.pointSize) ?? font
+                addAttribute(.font, value: newFont, range: theRange)
+            }
         }
     }
 }

@@ -97,7 +97,7 @@ class SwiftHighlighter {
         
         let result: Result = highlighter.result.map { t in
             let start = code.utf8.index(code.utf8.startIndex, offsetBy: t.start.utf8Offset)
-            let end = code.utf8.index(code.utf8.startIndex, offsetBy: t.end.utf8Offset)
+            let end = code.utf8.index(code.utf8.startIndex, offsetBy: t.end.utf8Offset, limitedBy: code.utf8.endIndex) ?? code.utf8.endIndex
             let result = start..<end
             return (result, t.kind)
         }

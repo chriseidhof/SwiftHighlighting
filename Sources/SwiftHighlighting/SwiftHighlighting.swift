@@ -26,6 +26,7 @@ extension NSMutableAttributedString {
     func highlightCodeBlock(result: SwiftHighlighter.Result, stylesheet: Stylesheet, originalString: String) {
         let nsString = string as NSString
         let start = 0
+        var replacements: [(NSRange, NSAttributedString)] = []
         for el in result {
             let offset = NSRange(el.range, in: originalString)
             let theRange = NSRange(location: start + offset.location, length: offset.length)
@@ -39,6 +40,19 @@ extension NSMutableAttributedString {
                 let newFont = NSFont(descriptor: desc, size: font.pointSize) ?? font
                 addAttribute(.font, value: newFont, range: theRange)
             }
+            let atts = stylesheet.customAttributes(for: el.kind)
+            if !atts.isEmpty {
+                addAttributes(atts, range: theRange)
+            }
+            if el.kind == .comment {
+                let substr = nsString.substring(with: theRange)
+                if let r = stylesheet.replaceComment(text: substr) {
+                    replacements.append((theRange, r))
+                }
+            }
+        }
+        for (range, replacement) in replacements.reversed() {
+            replaceCharacters(in: range, with: replacement)
         }
     }
 }
@@ -59,7 +73,9 @@ class SwiftHighlighter {
             let start = combined.endIndex
             combined.append(piece)
             let end = combined.endIndex
-            combined.append("\n\n")
+            if piece != pieces.last {
+                combined.append("\n\n")
+            }
             return start..<end
         }
         
@@ -129,7 +145,7 @@ extension TokenSyntax {
             pos = endPos
         }
         
-        pos = endPosition
+        pos = endPositionBeforeTrailingTrivia
         for piece in trailingTrivia {
             let endPos = pos + piece.sourceLength
             f(piece, pos, endPos)
@@ -178,6 +194,7 @@ class SwiftHighlighterRewriter: SyntaxRewriter {
         if let k = kind {
             result.append(Token(kind: k, start: token.positionAfterSkippingLeadingTrivia, end: token.endPosition))
         }
+
         token.enumerateAllTrivia { piece, start, end in
             if piece.isComment {
                 result.append(Token(kind: .comment, start: start, end: end))

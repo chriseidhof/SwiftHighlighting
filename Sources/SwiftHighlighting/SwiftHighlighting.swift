@@ -178,6 +178,11 @@ class SwiftHighlighterRewriter: SyntaxRewriter {
         return super.visit(node)
     }
 
+    override func visit(_ node: AttributeSyntax) -> AttributeSyntax {
+        result.append(.init(kind: .attribute, start: node.positionAfterSkippingLeadingTrivia, end: node.endPosition))
+        return super.visit(node)
+    }
+
     override func visit(_ token: TokenSyntax) -> TokenSyntax {
         let kind: Token.Kind?
         switch token.tokenKind {

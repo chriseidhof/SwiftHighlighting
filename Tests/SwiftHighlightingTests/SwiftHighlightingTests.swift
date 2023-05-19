@@ -38,6 +38,32 @@ final class SwiftHighlightingTests: XCTestCase {
         }
     }
 
+    func testClass() throws {
+        let input = """
+            final class Foo: UIViewController {
+                override func viewDidLoad() {
+                    super.viewDidLoad()
+                }
+            }
+            """
+
+        let result = try SwiftHighlighter.shared.highlight([input])[0]
+
+        let testRanges: [(fragment: String, kind: SwiftHighlighting.TokenKind)] = [
+            (fragment: "final ", kind: .keyword),
+            (fragment: "class ", kind: .keyword),
+            (fragment: "override ", kind: .keyword),
+            (fragment: "func ", kind: .keyword),
+            (fragment: "super", kind: .keyword),
+        ]
+
+        for range in testRanges {
+            XCTAssertTrue(result.contains(where: { (r, k) in
+                r == input.range(of: range.fragment) && k == range.kind
+            }), "Should contain {\(range.fragment)} as a \(range.kind)")
+        }
+    }
+
     func testRegression0() throws {
         let input = """
         HStack {

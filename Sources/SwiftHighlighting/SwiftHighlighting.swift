@@ -190,7 +190,7 @@ class SwiftHighlighterRewriter: SyntaxRewriter {
             kind = .string
         case .integerLiteral, .floatingLiteral:
             kind = .number
-        case _ where token.tokenKind.isLexerClassifiedKeyword:
+        case _ where token.tokenKind.isLexerClassifiedKeyword, .keyword:
             kind = .keyword
         default:
             kind = nil

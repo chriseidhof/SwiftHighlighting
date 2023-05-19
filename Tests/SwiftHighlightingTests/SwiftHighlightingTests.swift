@@ -8,6 +8,11 @@ final class SwiftHighlightingTests: XCTestCase {
                 // Comment
                 let bar = true
                 var str = ("hello", 42)
+
+                @discardableResult
+                func bar() -> Int {
+                    return 0
+                }
             }
             """
 
@@ -21,6 +26,9 @@ final class SwiftHighlightingTests: XCTestCase {
             (fragment: "true", kind: .keyword),
             (fragment: "hello", kind: .string),
             (fragment: "42", kind: .number),
+            (fragment: "@discardableResult", kind: .attribute),
+            (fragment: "func ", kind: .keyword),
+            (fragment: "0", kind: .number),
         ]
 
         for range in testRanges {

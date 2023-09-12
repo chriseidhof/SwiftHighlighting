@@ -168,11 +168,10 @@ extension TriviaPiece {
 class SwiftHighlighterRewriter: SyntaxRewriter {
     var result: [Token] = []
     override func visit(_ node: VariableDeclSyntax) -> DeclSyntax {
-        if let a = node.attributes {
-            for attribute in a {
-                if case .attribute = attribute {
-                    result.append(.init(kind: .attribute, start: attribute.positionAfterSkippingLeadingTrivia, end: attribute.endPosition))
-                }
+        let a = node.attributes
+        for attribute in a {
+            if case .attribute = attribute {
+                result.append(.init(kind: .attribute, start: attribute.positionAfterSkippingLeadingTrivia, end: attribute.endPosition))
             }
         }
         return super.visit(node)
@@ -188,9 +187,10 @@ class SwiftHighlighterRewriter: SyntaxRewriter {
         switch token.tokenKind {
         case .stringQuote, .stringSegment:
             kind = .string
-        case .integerLiteral, .floatingLiteral:
+        case .integerLiteral, .floatLiteral:
             kind = .number
-        case _ where token.tokenKind.isLexerClassifiedKeyword, .keyword:
+        case .keyword:
+//        case _ where token.tokenKind.isLexerClassifiedKeyword, .keyword:
             kind = .keyword
         default:
             kind = nil

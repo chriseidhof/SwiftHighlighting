@@ -9,6 +9,14 @@ import AppKit
 import SwiftParser
 import SwiftSyntax
 
+@available(macOS 12, *)
+extension AttributedString {
+    static public func highlightSwift(_ input: String, stylesheet: Stylesheet = .xcodeDefault) -> AttributedString {
+        let nsString = NSAttributedString.highlightSwift(input, stylesheet: stylesheet)
+        return AttributedString(nsString)
+    }
+}
+
 extension NSAttributedString {
     static public func highlightSwift(_ input: String, stylesheet: Stylesheet = .xcodeDefault, attributes: [NSAttributedString.Key: Any] = [:]) -> NSAttributedString {
         var atts = attributes

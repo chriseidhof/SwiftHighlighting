@@ -99,7 +99,9 @@ class SwiftHighlighter {
         
         
         for var el in allResults {
-            let currentIndex = ranges.firstIndex { $0?.contains(el.range.lowerBound) == true }!
+            guard let currentIndex = ranges.firstIndex(where: { $0?.contains(el.range.lowerBound) == true }) else {
+                continue // not sure when this can crash, but we had a crash at least once.
+            }
             let distance = combined.distance(from: ranges[currentIndex]!.lowerBound, to: el.range.lowerBound)
             let piece = pieces[currentIndex]
             let start = piece.index(piece.startIndex, offsetBy: distance)
@@ -176,10 +178,12 @@ extension TriviaPiece {
 class SwiftHighlighterRewriter: SyntaxRewriter {
     var result: [Token] = []
     override func visit(_ node: VariableDeclSyntax) -> DeclSyntax {
-        for attribute in node.attributes {
+        if let attributes = node.attributes {
+        for attribute in attributes {
             if case .attribute = attribute {
                 result.append(.init(kind: .attribute, start: attribute.positionAfterSkippingLeadingTrivia, end: attribute.endPosition))
             }
+        }
         }
         return super.visit(node)
     }
@@ -194,7 +198,7 @@ class SwiftHighlighterRewriter: SyntaxRewriter {
         switch token.tokenKind {
         case .stringQuote, .stringSegment:
             kind = .string
-        case .integerLiteral, .floatLiteral:
+        case .integerLiteral, .floatingLiteral:
             kind = .number
         case .keyword:
 //        case _ where token.tokenKind.isLexerClassifiedKeyword, .keyword:

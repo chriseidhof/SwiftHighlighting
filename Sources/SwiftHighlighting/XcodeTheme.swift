@@ -54,3 +54,25 @@ extension Stylesheet where Self == XcodeDefaultLight {
     public static var xcodeDefault: XcodeDefaultLight { .init() }
 }
 
+let exampleString = """
+    public func color(for kind: TokenKind) -> NSColor {
+        switch kind {
+        case "test": foo()
+        case .string:
+            return NSColor(hue: 5/360, saturation: 0.63, brightness: 0.99, alpha: 1)
+
+"""
+
+#if DEBUG
+import SwiftUI
+#Preview {
+    if #available(macOS 12, *) {
+        Text(AttributedString(NSAttributedString.highlightSwift(exampleString, stylesheet: .xcodeDefaultDark)))
+            .background(.black)
+        Text(AttributedString(NSAttributedString.highlightSwift(exampleString, stylesheet: .xcodeDefault)))
+            .background(.white)
+    } else {
+        // Fallback on earlier versions
+    }
+}
+#endif

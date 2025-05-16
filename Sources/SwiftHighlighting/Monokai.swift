@@ -28,14 +28,23 @@ extension Stylesheet where Self == Monokai {
 }
 
 #if DEBUG
+
+import SwiftUI
+
+struct Helper<S: Stylesheet>: View {
+    var stylesheet: S
+    var text: String = exampleString
+    @ScaledMetric var bodySize = 17
+
+    var body: some View {
+        Text(AttributedString(NSAttributedString.highlightSwift(text, stylesheet: stylesheet, attributes: [.font: NSFont.monospacedSystemFont(ofSize: bodySize, weight: .medium)])))
+            .padding()
+            .background(Color(stylesheet.background))
+    }
+}
+
 import SwiftUI
 #Preview {
-    if #available(macOS 12, *) {
-        Text(AttributedString(NSAttributedString.highlightSwift(exampleString, stylesheet: .monokai)))
-            .padding()
-            .background(Color(Monokai().background))
-    } else {
-        // Fallback on earlier versions
-    }
+    Helper(stylesheet: .monokai)
 }
 #endif

@@ -66,13 +66,7 @@ let exampleString = """
 #if DEBUG
 import SwiftUI
 #Preview {
-    if #available(macOS 12, *) {
-        Text(AttributedString(NSAttributedString.highlightSwift(exampleString, stylesheet: .xcodeDefaultDark)))
-            .background(.black)
-        Text(AttributedString(NSAttributedString.highlightSwift(exampleString, stylesheet: .xcodeDefault)))
-            .background(.white)
-    } else {
-        // Fallback on earlier versions
-    }
+    Helper(stylesheet: .xcodeDefault)
+    Helper(stylesheet: .xcodeDefaultDark)
 }
 #endif

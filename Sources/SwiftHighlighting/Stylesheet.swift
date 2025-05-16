@@ -21,3 +21,11 @@ extension Stylesheet {
         return nil
     }
 }
+
+#if DEBUG
+import SwiftUI
+#Preview {
+    Helper(stylesheet: .solarizedLight)
+    Helper(stylesheet: .solarizedDark)
+}
+#endif
